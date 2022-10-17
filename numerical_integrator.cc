@@ -1,4 +1,3 @@
-#include "includes/integral_constants.h"
 #include "includes/model_functions.h"
 
 
@@ -23,8 +22,7 @@ int main(int argc, char *argv[])
   
   vector<double> par_array = { m, m1, m2, dy1, dy2, tau, T, sigma } ;
   vector<double> func_vars_array = { 0. , 0. } ; // Y, pT
-  vector<double> integ_lims_array = { phi_low, phi_high, rT_low, rT_high, pT_low, pT_high, y_low, y_high, eta_low, eta_high  } ;
-
+  
   ofstream outfile;
 
   for(double Y = 0.0 ; Y < 0.10 ; Y++)
@@ -36,7 +34,7 @@ int main(int argc, char *argv[])
     {
       func_vars_array.at(0) = Y ;
       func_vars_array.at(1) = pT ;
-      double result = rapidity_momentum_distribution( func_vars_array , par_array , integ_lims_array , N_iter ) ;
+      double result = rapidity_momentum_distribution( func_vars_array , par_array, N_iter ) ;
       outfile << Y << "\t" << pT << "\t" << result << endl;
       cerr << Y << "\t" << pT << "\t" << result << endl;
     }
