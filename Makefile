@@ -1,16 +1,22 @@
+INCLUDE_DIR = includes
+SOURCE_DIR = sources
+OBJECT_DIR = objects
+
 CXX           = g++
-CFLAGS        = -O3 -Wall -fPIC -fno-inline -std=c++11 -c
-LD            = g++
-LDFLAGS       = -O3 -std=c++11
-GSLFLAGS      = -lgsl -lgslcblas -lm
+CFLAGS        = -O3 -Wall -fPIC -fno-inline -std=c++11 -lm -I$(INCLUDE_DIR)
 
-all: numerical_integrator.exe
+_DEPS = model_functions.h integral_constants.h
+DEPS = $(patsubst %,$(INCLUDE_DIR)/%,$(_DEPS))
 
-numerical_integrator.o: *.cc *.h
-	$(CXX) $(CFLAGS) numerical_integrator.cc
+_OBJ = numerical_integrator.o rapidity_momentum_distribution.o
+OBJ = $(patsubst %,$(OBJECT_DIR)/%,$(_OBJ))
 
-numerical_integrator.exe: numerical_integrator.o
-	$(LD) $(LDFLAGS) numerical_integrator.o -o numerical_integrator.exe $(GSLFLAGS)
+
+$(OBJECT_DIR)/%.o: %.cc $(DEPS)
+	$(CXX) -c -o $@ $< $(CFLAGS)
+
+numerical_integrator.exe: $(OBJ)
+	$(CXX) -o $@ $^ $(CFLAGS)
   
 clean:
-	rm -rf *.o *.exe
+	rm -rf $(OBJECT_DIR)/*.o *.exe

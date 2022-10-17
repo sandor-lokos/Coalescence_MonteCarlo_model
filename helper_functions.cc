@@ -1,3 +1,5 @@
+#include "includes/model_functions.h"
+
 bool Theta(double x, double limit)
 {
   return ( x < limit );

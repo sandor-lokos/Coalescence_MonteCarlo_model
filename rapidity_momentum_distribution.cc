@@ -1,3 +1,6 @@
+#include "helper_functions.cc"
+#include "includes/model_functions.h"
+
 double CoalescenceDistribution(vector<double> par_array)
 {
   double rT1   = par_array.at(0);

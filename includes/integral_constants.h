@@ -1,3 +1,5 @@
+#include "model_functions.h"
+
 double eta_low = -5. ;
 double eta_high = 5. ;
 

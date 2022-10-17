@@ -1,14 +1,5 @@
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <cmath>
-#include <gsl/gsl_sf_bessel.h>
-#include <vector>
-
-using namespace std;
-#include "integral_constants.cc"
-#include "helper_functions.cc"
-#include "rapidity_momentum_distribution.cc"
+#include "includes/integral_constants.h"
+#include "includes/model_functions.h"
 
 
 int main(int argc, char *argv[])
