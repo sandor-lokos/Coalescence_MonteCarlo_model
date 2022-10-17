@@ -1,4 +1,4 @@
-#include "includes/model_functions.h"
+#include "../includes/model_functions.h"
 
 
 int main(int argc, char *argv[])
@@ -40,7 +40,6 @@ int main(int argc, char *argv[])
     }
     outfile.close();
   }
-
 
 	return 0;
 }

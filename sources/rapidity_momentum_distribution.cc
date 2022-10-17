@@ -1,6 +1,6 @@
 #include "helper_functions.cc"
-#include "includes/model_functions.h"
-#include "includes/integral_constants.h"
+#include "../includes/model_functions.h"
+#include "../includes/integral_constants.h"
 
 double CoalescenceDistribution(vector<double> par_array)
 {

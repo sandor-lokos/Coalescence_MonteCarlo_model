@@ -12,7 +12,7 @@ _OBJ = numerical_integrator.o rapidity_momentum_distribution.o
 OBJ = $(patsubst %,$(OBJECT_DIR)/%,$(_OBJ))
 
 
-$(OBJECT_DIR)/%.o: %.cc $(DEPS)
+$(OBJECT_DIR)/%.o: $(SOURCE_DIR)/%.cc $(DEPS)
 	$(CXX) -c -o $@ $< $(CFLAGS)
 
 numerical_integrator.exe: $(OBJ)

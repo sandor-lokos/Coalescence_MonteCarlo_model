@@ -1,4 +1,4 @@
-#include "includes/model_functions.h"
+#include "../includes/model_functions.h"
 
 bool Theta(double x, double limit)
 {
