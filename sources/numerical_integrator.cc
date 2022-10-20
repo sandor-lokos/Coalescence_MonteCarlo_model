@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     stringstream outputfilename("");
     outputfilename << "test_mom_rap_dist_" << Y << ".txt";
     outfile.open(outputfilename.str().c_str());
-    for(double pT = 0. ; pT < 2.; pT += 0.1)
+    for(double pT = 0.1 ; pT < 2.; pT += 0.1)
     {
       func_vars_array.at(0) = Y ;
       func_vars_array.at(1) = pT ;

@@ -102,7 +102,8 @@ double integrand( vector<double> func_vars_array , vector<double> par_array , ve
 
 double rapidity_momentum_distribution( vector<double> func_vars_array , vector<double> par_array , long int N_iter )
 {
-	double totalSum, functionVal = 0;
+	double totalSum = 0 ;
+  double functionVal = 0 ;
 	int iter = 0;
 
   vector<double> integ_vars_array = { 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0. } ;
@@ -110,19 +111,19 @@ double rapidity_momentum_distribution( vector<double> func_vars_array , vector<d
 	while( iter < N_iter - 1 )
 	{
     integ_vars_array.at(0)  = phi_low + ( double( rand() ) / RAND_MAX ) * ( phi_high - phi_low );  // Phi
-    integ_vars_array.at(1)  = rT_low +  ( double( rand() ) / RAND_MAX ) * ( rT_high  - rT_low );  // rT
-    integ_vars_array.at(2)  = pT_low +  ( double( rand() ) / RAND_MAX ) * ( pT_high  - pT_low );  // pT1
-    integ_vars_array.at(3)  = pT_low +  ( double( rand() ) / RAND_MAX ) * ( pT_high  - pT_low );  // pT2
-    integ_vars_array.at(4)  = y_low +   ( double( rand() ) / RAND_MAX ) * ( y_high   - y_low );  // y1
-    integ_vars_array.at(5)  = y_low +   ( double( rand() ) / RAND_MAX ) * ( y_high   - y_low );  // y2
+    integ_vars_array.at(1)  = rT_low +  ( double( rand() ) / RAND_MAX ) * ( rT_high  - rT_low  );  // rT
+    integ_vars_array.at(2)  = pT_low +  ( double( rand() ) / RAND_MAX ) * ( pT_high  - pT_low  );  // pT1
+    integ_vars_array.at(3)  = pT_low +  ( double( rand() ) / RAND_MAX ) * ( pT_high  - pT_low  );  // pT2
+    integ_vars_array.at(4)  = y_low +   ( double( rand() ) / RAND_MAX ) * ( y_high   - y_low   );  // y1
+    integ_vars_array.at(5)  = y_low +   ( double( rand() ) / RAND_MAX ) * ( y_high   - y_low   );  // y2
     integ_vars_array.at(6)  = phi_low + ( double( rand() ) / RAND_MAX ) * ( phi_high - phi_low );  // Phi1
     integ_vars_array.at(7)  = phi_low + ( double( rand() ) / RAND_MAX ) * ( phi_high - phi_low );  // Phi2
     integ_vars_array.at(8)  = eta_low + ( double( rand() ) / RAND_MAX ) * ( eta_high - eta_low );  // eta1
     integ_vars_array.at(9)  = eta_low + ( double( rand() ) / RAND_MAX ) * ( eta_high - eta_low );  // eta2
     integ_vars_array.at(10) = phi_low + ( double( rand() ) / RAND_MAX ) * ( phi_high - phi_low );  // phi1
     integ_vars_array.at(11) = phi_low + ( double( rand() ) / RAND_MAX ) * ( phi_high - phi_low );  // phi2
-    integ_vars_array.at(12) = rT_low +  ( double( rand() ) / RAND_MAX ) * ( rT_high  - rT_low );  // rT1
-    integ_vars_array.at(13) = rT_low +  ( double( rand() ) / RAND_MAX ) * ( rT_high  - rT_low );  // rT2
+    integ_vars_array.at(12) = rT_low +  ( double( rand() ) / RAND_MAX ) * ( rT_high  - rT_low  );  // rT1
+    integ_vars_array.at(13) = rT_low +  ( double( rand() ) / RAND_MAX ) * ( rT_high  - rT_low  );  // rT2
 
 		functionVal = integrand( func_vars_array , par_array , integ_vars_array ) ;
 
@@ -133,7 +134,7 @@ double rapidity_momentum_distribution( vector<double> func_vars_array , vector<d
 		iter++;
 	}
 
-	double estimate = totalSum / N_iter * pow((phi_high - phi_low),5) * pow((rT_high - rT_low),3) * pow((pT_high - pT_low),2) * pow((y_high - y_low),2) * pow((eta_high - eta_low),2) ;
+	double estimate = totalSum / N_iter * pow( ( phi_high - phi_low ) , 5 ) * pow( ( rT_high - rT_low ) , 3 ) * pow( ( pT_high - pT_low ) , 2 ) * pow( ( y_high - y_low ) , 2 ) * pow( ( eta_high - eta_low ) , 2 ) ;
 
 	return estimate;
 
