@@ -1,5 +1,4 @@
-#include "../includes/model_functions.h"
-
+#include "../includes/model_funcs.h"
 
 int main(int argc, char *argv[])
 {
@@ -11,9 +10,9 @@ int main(int argc, char *argv[])
 
   long int N_iter = atoi(argv[1]);
 
-  double m  = 0.14;
-  double m1 = 0.03 ;
-  double m2 = 0.03 ;
+  double m  = 3.1;
+  double m1 = 1.5;
+  double m2 = 1.5;
   double dy1 = 1.5;
   double dy2 = 1.5;
   double tau = 7.1;
@@ -25,18 +24,21 @@ int main(int argc, char *argv[])
   
   ofstream outfile;
 
-  for(double Y = 0.0 ; Y < 0.10 ; Y++)
+  model_funcs model;
+
+  for(double Y = 0.0 ; Y < 1.0 ; Y++)
   {
     stringstream outputfilename("");
     outputfilename << "test_mom_rap_dist_" << Y << ".txt";
     outfile.open(outputfilename.str().c_str());
-    for(double pT = 0.1 ; pT < 2.; pT += 0.1)
+    for( double pT = 0.5 ; pT < 8.5 ; pT += 0.5 )
     {
       func_vars_array.at(0) = Y ;
       func_vars_array.at(1) = pT ;
-      double result = rapidity_momentum_distribution( func_vars_array , par_array, N_iter ) ;
-      outfile << Y << "\t" << pT << "\t" << result << endl;
-      cerr << Y << "\t" << pT << "\t" << result << endl;
+      double general_result = model.general_rapidity_momentum_distribution( func_vars_array , par_array, N_iter ) ;
+      double Bjorken_result = model.GKL_rapidity_momentum_distribution( func_vars_array , par_array, N_iter ) ;
+      outfile << Y << "\t" << pT << "\t" << general_result / ( 2. * M_PI * pT ) << "\t" << Bjorken_result / ( 2. * M_PI * pT ) << endl;
+      cerr    << Y << "\t" << pT << "\t" << general_result / ( 2. * M_PI * pT ) << "\t" << Bjorken_result / ( 2. * M_PI * pT ) << endl;
     }
     outfile.close();
   }

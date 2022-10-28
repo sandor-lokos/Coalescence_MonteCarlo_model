@@ -1,8 +1,6 @@
-#include "helper_functions.cc"
-#include "../includes/model_functions.h"
-#include "../includes/integral_constants.h"
+#include "../includes/model_funcs.h"
 
-double CoalescenceDistribution(vector<double> par_array)
+double model_funcs::CoalescenceDistribution_general(vector<double> par_array)
 {
   double rT1   = par_array.at(0);
   double rT2   = par_array.at(1);
@@ -31,7 +29,7 @@ double CoalescenceDistribution(vector<double> par_array)
   // return 1. / pow( sigma , 6. ) * exp( - x2_exponent / sigma / sigma - p2_exponent * sigma * sigma ) ;
 }
 
-double dNi(vector<double> par_array)
+double model_funcs::dNi_general(vector<double> par_array)
 {
   double rTi  = par_array.at(0);
   double phii = par_array.at(1);
@@ -49,10 +47,10 @@ double dNi(vector<double> par_array)
   double pui = mTi * cosh( yi - etai ) ;
   double gammaTi = 1. / sqrt( 1 - rTi * rTi / tau / tau ) ;
   
-  return Cyi * pui * exp( - gammaTi / T * ( pui - pTi * rTi / tau * cos( Phii - phii ) ) ) ;
+  return Cyi * rTi * tau * pui * exp( - gammaTi / T * ( pui - pTi * rTi / tau * cos( Phii - phii ) ) ) ;
 }
 
-double integrand( vector<double> func_vars_array , vector<double> par_array , vector<double> integ_vars_array )
+double model_funcs::integrand_general( vector<double> func_vars_array , vector<double> par_array , vector<double> integ_vars_array )
 {
   double Y     = func_vars_array.at(0);
   double pT    = func_vars_array.at(1);
@@ -90,17 +88,18 @@ double integrand( vector<double> func_vars_array , vector<double> par_array , ve
   vector<double> momdist2_pars = {rT2,phi2,eta2,Phi2,y2,pT2,m2,tau,T,dy2} ;
 
   double result = 0.0; 
-  if ( DiracDelta( pT * sin(Phi) - ( pT1 * sin(Phi1) + pT2 * sin(Phi2) ) , 0.001) > 0. )
-    if ( DiracDelta( mT * sinh(Y) - ( mT1 * sinh(y1) + mT2 * sinh(y2) ) , 0.001) > 0. ) 
-      result = dNi( momdist1_pars ) * dNi( momdist2_pars ) * CoalescenceDistribution( coal_pars ) ;
-      // if ( (y1 > 0 && y2 > 0) || (y1 < 0 && y2 < 0) )
-        // if ( (eta1 > 0 && eta2 > 0) || (eta1 < 0 && eta2 < 0) )
+  // if ( DiracDelta( pT * cos(Phi) - ( pT1 * cos(Phi1) + pT2 * cos(Phi2) ) , 0.001) > 0. )
+    if ( DiracDelta( pT * sin(Phi) - ( pT1 * sin(Phi1) + pT2 * sin(Phi2) ) , 0.001) > 0. )
+      // if ( DiracDelta( mT * cosh(Y) - ( mT1 * cosh(y1) + mT2 * cosh(y2) ) , 0.001) > 0. ) 
+        if ( DiracDelta( mT * sinh(Y) - ( mT1 * sinh(y1) + mT2 * sinh(y2) ) , 0.001) > 0. ) 
+          result = rT * dNi_general( momdist1_pars ) * dNi_general( momdist2_pars ) * CoalescenceDistribution_general( coal_pars ) ;
+          // if ( (y1 > 0 && y2 > 0) || (y1 < 0 && y2 < 0) )
+            // if ( (eta1 > 0 && eta2 > 0) || (eta1 < 0 && eta2 < 0) )
       
   return result ;
 }
 
-
-double rapidity_momentum_distribution( vector<double> func_vars_array , vector<double> par_array , long int N_iter )
+double model_funcs::general_rapidity_momentum_distribution( vector<double> func_vars_array , vector<double> par_array , long int N_iter )
 {
 	double totalSum = 0 ;
   double functionVal = 0 ;
@@ -125,7 +124,7 @@ double rapidity_momentum_distribution( vector<double> func_vars_array , vector<d
     integ_vars_array.at(12) = rT_low +  ( double( rand() ) / RAND_MAX ) * ( rT_high  - rT_low  );  // rT1
     integ_vars_array.at(13) = rT_low +  ( double( rand() ) / RAND_MAX ) * ( rT_high  - rT_low  );  // rT2
 
-		functionVal = integrand( func_vars_array , par_array , integ_vars_array ) ;
+		functionVal = integrand_general( func_vars_array , par_array , integ_vars_array ) ;
 
     if(iter%10000000==0) cerr << "\t --> Y = " << func_vars_array.at(0) << " , pT = " << func_vars_array.at(1) << " iter = " << iter/1e6 << "M" << endl;
 
