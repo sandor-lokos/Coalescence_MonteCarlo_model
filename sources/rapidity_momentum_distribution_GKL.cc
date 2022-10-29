@@ -20,7 +20,10 @@ double model_funcs::CoalescenceDistribution_GKL(vector<double> par_array)
   double mT2 = sqrt(m2*m2 + pT2*pT2);
   double x2_exponent = rT1*rT1 + rT2*rT2 - 2.*(rT1*rT2*cos(phi1-phi2));  // (x1-x2)^2
   double p2_exponent = mT1*mT1 + mT2*mT2 + pT1*pT1 + pT2*pT2 - 2.*pT1*pT2*cos(Phi1-Phi2);  // (p1-p2)^2
-
+  
+  // cerr << x2_exponent << " " << sigma*sigma << endl;
+  // cerr << p2_exponent << " " << sigma*sigma << endl;
+  
   return 9 * M_PI / pow( sigma , 6. ) * Theta( x2_exponent , sigma*sigma ) * Theta( p2_exponent + (m1-m2)*(m1-m2) , sigma * sigma ) ;
   // return 1. / pow( sigma , 6. ) * exp( - x2_exponent / sigma / sigma - p2_exponent * sigma * sigma ) ;
 }
@@ -42,7 +45,7 @@ double model_funcs::dNi_GKL(vector<double> par_array)
   double pui = mTi ;
   double gammaTi = 1. / sqrt( 1 - rTi * rTi / tau / tau / 4. ) ;
   
-  return Cyi * rTi * tau * pui * exp( - gammaTi / T * ( pui - pTi * rTi / tau /2. * cos( Phii - phii ) ) ) ;
+  return Cyi * tau * rTi * pui * exp( - gammaTi / T * ( pui - pTi * rTi / tau /2. * cos( Phii - phii ) ) ) ;
 }
 
 double model_funcs::integrand_GKL( vector<double> func_vars_array , vector<double> par_array , vector<double> integ_vars_array )
@@ -78,10 +81,10 @@ double model_funcs::integrand_GKL( vector<double> func_vars_array , vector<doubl
   vector<double> momdist1_pars = {rT1,phi1,Phi1,pT1,m1,tau,T,dy1} ;
   vector<double> momdist2_pars = {rT2,phi2,Phi2,pT2,m2,tau,T,dy2} ;
 
-  double result = 0.0; 
+  double result = 10.0; 
   // if ( DiracDelta( pT * cos(Phi) - ( pT1 * cos(Phi1) + pT2 * cos(Phi2) ) , 0.001) > 0. )
-    if ( DiracDelta( pT * sin(Phi) - ( pT1 * sin(Phi1) + pT2 * sin(Phi2) ) , 0.001) > 0. )
-      result = rT * dNi_GKL( momdist1_pars ) * dNi_GKL( momdist2_pars ) * CoalescenceDistribution_GKL( coal_pars ) ;
+    // if ( DiracDelta( pT * sin(Phi) - ( pT1 * sin(Phi1) + pT2 * sin(Phi2) ) , 0.001) > 0. )
+      result = dNi_GKL( momdist1_pars ) * dNi_GKL( momdist2_pars ) * CoalescenceDistribution_GKL( coal_pars ) ;
     // if ( (y1 > 0 && y2 > 0) || (y1 < 0 && y2 < 0) )
     // if ( (eta1 > 0 && eta2 > 0) || (eta1 < 0 && eta2 < 0) )
       

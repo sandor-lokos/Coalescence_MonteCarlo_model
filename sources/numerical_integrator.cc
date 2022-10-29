@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
   double dy2 = 1.5;
   double tau = 7.1;
   double T = .170;
-  double sigma = 0.2;
+  double sigma = 3.2;
   
   vector<double> par_array = { m, m1, m2, dy1, dy2, tau, T, sigma } ;
   vector<double> func_vars_array = { 0. , 0. } ; // Y, pT

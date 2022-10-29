@@ -8,7 +8,7 @@ using namespace std;
 
 class model_funcs
 {
-  public:
+  private:
     double eta_low = -5. ;
     double eta_high = 5. ;
 
@@ -24,15 +24,9 @@ class model_funcs
     double y_low = -5. ;
     double y_high = 5. ;
 
-    bool Theta(double x, double limit) { return ( x < limit ); }
-    double DiracDelta(double x, double eps)
-    {
-      if( abs(x) > eps)
-        return x;
-      else
-        return 0;
-    }
-    // double DiracDelta(double x, double eps) { return exp( -x * x / eps / eps ); }
+  public:
+    bool Theta(double x, double limit);
+    double DiracDelta(double x, double eps);
 
     double dNi_GKL(vector<double> par_array);
     double CoalescenceDistribution_GKL(vector<double> par_array);

@@ -8,7 +8,7 @@ CFLAGS        = -O3 -Wall -fPIC -fno-inline -std=c++11 -lm -I$(INCLUDE_DIR)
 _DEPS = model_funcs.h
 DEPS = $(patsubst %,$(INCLUDE_DIR)/%,$(_DEPS))
 
-_OBJ = numerical_integrator.o rapidity_momentum_distribution.o rapidity_momentum_distribution_GKL.o
+_OBJ = numerical_integrator.o rapidity_momentum_distribution.o rapidity_momentum_distribution_GKL.o helper_functions.o
 OBJ = $(patsubst %,$(OBJECT_DIR)/%,$(_OBJ))
 
 
