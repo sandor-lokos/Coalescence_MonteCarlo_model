@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
   double dy2 = 1.5;
   double tau = 7.1;
   double T = .170;
-  double sigma = 3.2;
+  double sigma = 0.1;
   
   vector<double> par_array = { m, m1, m2, dy1, dy2, tau, T, sigma } ;
   vector<double> func_vars_array = { 0. , 0. } ; // Y, pT
@@ -35,10 +35,12 @@ int main(int argc, char *argv[])
     {
       func_vars_array.at(0) = Y ;
       func_vars_array.at(1) = pT ;
-      double general_result = model.general_rapidity_momentum_distribution( func_vars_array , par_array, N_iter ) ;
+      // double general_result = model.general_rapidity_momentum_distribution( func_vars_array , par_array, N_iter ) ;
       double Bjorken_result = model.GKL_rapidity_momentum_distribution( func_vars_array , par_array, N_iter ) ;
-      outfile << Y << "\t" << pT << "\t" << general_result / ( 2. * M_PI * pT ) << "\t" << Bjorken_result / ( 2. * M_PI * pT ) << endl;
-      cerr    << Y << "\t" << pT << "\t" << general_result / ( 2. * M_PI * pT ) << "\t" << Bjorken_result / ( 2. * M_PI * pT ) << endl;
+      // outfile << Y << "\t" << pT << "\t" << general_result / ( 2. * M_PI * pT ) << "\t" << Bjorken_result / ( 2. * M_PI * pT ) << endl;
+      // cerr    << Y << "\t" << pT << "\t" << general_result / ( 2. * M_PI * pT ) << "\t" << Bjorken_result / ( 2. * M_PI * pT ) << endl;
+      outfile << Y << "\t" << pT << "\t" << Bjorken_result / ( 2. * M_PI * pT ) << endl;
+      cerr    << Y << "\t" << pT << "\t" << Bjorken_result / ( 2. * M_PI * pT ) << endl;
     }
     outfile.close();
   }

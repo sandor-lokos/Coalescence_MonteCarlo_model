@@ -1,8 +1,8 @@
 #include "../includes/model_funcs.h"
 
-bool model_funcs::Theta(double x, double limit)
+bool model_funcs::Theta(double x, double y)
 {
-  return ( x < limit );
+  return ( x > y );
 }
 
 double model_funcs::DiracDelta(double x, double eps)
